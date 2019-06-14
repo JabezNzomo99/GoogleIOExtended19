@@ -1,9 +1,11 @@
 package com.jabezmagomere.movies.data.repository
 
-import com.jabezmagomere.movies.data.models.Movie
-import com.jabezmagomere.movies.data.models.Response
+import androidx.lifecycle.LiveData
+import com.jabezmagomere.movies.data.db.Movie
 
 interface MovieRepository {
-    suspend fun getTrendingMoviesThisWeek(): List<Movie>
-    suspend fun getTrendingMoviesToday(): List<Movie>
+    suspend fun getTrendingMoviesThisWeek(): LiveData<List<Movie>>
+    suspend fun getTrendingMoviesToday(): LiveData<List<Movie>>
+    suspend fun discoverActionMovies(): LiveData<List<Movie>>
+    suspend fun discoverComedyMovies(): LiveData<List<Movie>>
 }

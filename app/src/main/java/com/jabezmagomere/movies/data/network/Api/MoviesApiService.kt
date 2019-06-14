@@ -1,8 +1,9 @@
-package com.jabezmagomere.movies.data.network
+package com.jabezmagomere.movies.data.network.Api
 
 import com.jabezmagomere.movies.data.models.Response
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import kotlinx.coroutines.Deferred
+import com.jabezmagomere.movies.data.network.Interceptors.Authentication.AuthenticationInterceptor
+import com.jabezmagomere.movies.data.network.Interceptors.Connectivity.ConnectivityInterceptor
+import com.jabezmagomere.movies.util.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -12,13 +13,13 @@ import retrofit2.http.GET
 interface MoviesApiService {
 
     @GET("trending/movie/week")
-    fun getTrendingMoviesThisWeek():Deferred<Response>
+    suspend fun fetchTrendingMoviesThisWeek():retrofit2.Response<Response>
 
     @GET("trending/movie/day")
-    fun getTrendingMoviesToday():Deferred<Response>
+    suspend fun fetchTrendingMoviesToday():retrofit2.Response<Response>
 
     companion object {
-        operator fun invoke(authenticationInterceptor: AuthenticationInterceptor, connectivityInterceptor: ConnectivityInterceptor):MoviesApiService{
+        operator fun invoke(authenticationInterceptor: AuthenticationInterceptor, connectivityInterceptor: ConnectivityInterceptor): MoviesApiService {
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(connectivityInterceptor)
                 .addInterceptor(authenticationInterceptor)
@@ -26,8 +27,7 @@ interface MoviesApiService {
                 .build()
             return Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl("https://api.themoviedb.org/3/")
-                .addCallAdapterFactory(CoroutineCallAdapterFactory())
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(MoviesApiService::class.java)

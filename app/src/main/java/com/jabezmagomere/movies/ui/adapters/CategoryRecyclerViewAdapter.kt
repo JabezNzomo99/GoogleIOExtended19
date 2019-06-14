@@ -9,9 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jabezmagomere.movies.R
 import com.jabezmagomere.movies.ui.view.Category
+import com.jabezmagomere.movies.util.CustomOnClickListener
 import kotlinx.android.synthetic.main.row_category_item.view.*
 
-class CategoryRecyclerViewAdapter(private val categories:List<Category>, private val context:Context):
+class CategoryRecyclerViewAdapter(private val categories:List<Category>, private val listener: CustomOnClickListener):
     RecyclerView.Adapter<CategoryRecyclerViewAdapter.CategoryViewHolder>(){
     inner class CategoryViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
         val recyclerView = itemView.recyclerViewMovies
@@ -34,7 +35,7 @@ class CategoryRecyclerViewAdapter(private val categories:List<Category>, private
         childLayoutManager.initialPrefetchItemCount = 4
         holder.recyclerView.apply {
             layoutManager = childLayoutManager
-            adapter = MovieRecyclerViewAdapter(category.movies, context)
+            adapter = MovieRecyclerViewAdapter(category.movies, listener)
             setRecycledViewPool(viewPool)
         }
 

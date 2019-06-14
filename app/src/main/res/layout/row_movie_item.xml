@@ -15,6 +15,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" android:layout_marginTop="8dp"
             app:layout_constraintTop_toTopOf="parent"
+            android:background="?android:attr/selectableItemBackground"
     >
         <LinearLayout
                 android:layout_width="match_parent"
@@ -36,7 +37,7 @@
                       android:layout_height="match_parent"
                       android:fontFamily="@font/roboto_medium"
                       tools:text="The Dog Movie"
-                    android:background="@color/colorAccent"
+                    android:background="@color/colorPrimaryDark"
                     android:textColor="@android:color/white"
             />
 

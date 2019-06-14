@@ -1,6 +1,7 @@
 package com.jabezmagomere.movies.data.models
 
 import com.google.gson.annotations.SerializedName
+import com.jabezmagomere.movies.data.db.Movie
 
 data class Response(
     val page: Int, // 1

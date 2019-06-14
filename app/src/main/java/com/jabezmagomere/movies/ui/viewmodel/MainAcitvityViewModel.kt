@@ -1,43 +1,47 @@
 package com.jabezmagomere.movies.ui.viewmodel
 
-import androidx.annotation.UiThread
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jabezmagomere.movies.data.models.Movie
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
+import com.airbnb.lottie.L
+import com.jabezmagomere.movies.data.db.Movie
 import com.jabezmagomere.movies.data.repository.MovieRepository
-import com.jabezmagomere.movies.ui.BaseViewModel
 import com.jabezmagomere.movies.ui.view.Category
-import com.jabezmagomere.movies.util.lazyDeferred
 import kotlinx.coroutines.*
-import retrofit2.HttpException
 import java.lang.Exception
-import kotlin.coroutines.CoroutineContext
 
-class MainAcitvityViewModel(private val movieRepository: MovieRepository):BaseViewModel(){
+class MainAcitvityViewModel(private val movieRepository: MovieRepository):ViewModel(){
 
-    val trendingMoviesToday = MutableLiveData<List<Movie>>()
-    val trendingMoviesThisWeek = MutableLiveData<List<Movie>>()
+    val trendingMoviesToday = liveData{
+        withContext(Dispatchers.IO) {
+            isLoading.postValue(true)
+            emitSource(movieRepository.getTrendingMoviesToday())
+            isLoading.postValue(false)
+        }
+    }
+    val trendingMoviesThisWeek = liveData {
+        withContext(Dispatchers.IO){
+            isLoading.postValue(true)
+            emitSource(movieRepository.getTrendingMoviesThisWeek())
+            isLoading.postValue(false)
+
+        }
+    }
+    val actionMovies = liveData {
+        withContext(Dispatchers.IO){
+            isLoading.postValue(true)
+            emitSource(movieRepository.discoverActionMovies())
+            isLoading.postValue(false)
+        }
+    }
+    val comedyMovies = liveData {
+        withContext(Dispatchers.IO){
+            isLoading.postValue(true)
+            emitSource(movieRepository.discoverComedyMovies())
+            isLoading.postValue(false)
+        }
+    }
     val allCategory = MutableLiveData<ArrayList<Category>>()
-    val exception = MutableLiveData<Exception>()
-
-    fun getTrendingMoviesToday()=launch {
-        withContext(Dispatchers.IO){
-            try {
-                val movies = movieRepository.getTrendingMoviesToday()
-                trendingMoviesToday.postValue(movies)
-            }catch (ex:Exception){
-                exception.postValue(ex)
-            }
-        }
-    }
-    fun getTrendingMoviesThisWeek()= launch {
-        withContext(Dispatchers.IO){
-            try {
-                trendingMoviesThisWeek.postValue(movieRepository.getTrendingMoviesThisWeek())
-            }catch (ex:Exception){
-                exception.postValue(ex)
-            }
-        }
-    }
+    val isLoading = MutableLiveData<Boolean>()
 }

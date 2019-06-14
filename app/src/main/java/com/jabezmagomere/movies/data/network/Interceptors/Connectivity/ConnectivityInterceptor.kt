@@ -1,4 +1,4 @@
-package com.jabezmagomere.movies.data.network
+package com.jabezmagomere.movies.data.network.Interceptors.Connectivity
 
 import okhttp3.Interceptor
 
