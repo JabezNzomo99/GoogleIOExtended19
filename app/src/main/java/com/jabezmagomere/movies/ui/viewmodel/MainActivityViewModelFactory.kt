@@ -7,7 +7,7 @@ import com.jabezmagomere.movies.data.repository.MovieRepository
 @Suppress("UNCHECKED_CAST")
 class MainActivityViewModelFactory(private val movieRepository: MovieRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return MainAcitvityViewModel(movieRepository) as T
+        return MainActivityViewModel(movieRepository) as T
     }
 
 }

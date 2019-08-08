@@ -8,7 +8,7 @@ import com.jabezmagomere.movies.util.Constants
 
 class MovieRepositoryImpl(private val appDataSource: AppDataSource, private val moviesDao: MoviesDao) : MovieRepository {
     override suspend fun getTrendingMoviesThisWeek(): LiveData<List<Movie>> {
-        if(moviesDao.getAllMovies(Constants.TRENDING_THIS_WEEK).value.isNullOrEmpty()){
+        if(moviesDao.getAllMoviesPerCategory(Constants.TRENDING_THIS_WEEK).value.isNullOrEmpty()){
             val movieResponse = appDataSource.fetchTrendingMoviesThisWeek()
             if(movieResponse.isSuccessful){
                 movieResponse.body()?.results?.forEach {movie->
@@ -17,11 +17,11 @@ class MovieRepositoryImpl(private val appDataSource: AppDataSource, private val 
                 }
             }
         }
-        return moviesDao.getAllMovies(Constants.TRENDING_THIS_WEEK)
+        return moviesDao.getAllMoviesPerCategory(Constants.TRENDING_THIS_WEEK)
     }
 
     override suspend fun getTrendingMoviesToday(): LiveData<List<Movie>> {
-        if(moviesDao.getAllMovies(Constants.TRENDING_TODAY).value.isNullOrEmpty()){
+        if(moviesDao.getAllMoviesPerCategory(Constants.TRENDING_TODAY).value.isNullOrEmpty()){
             val movieResponse = appDataSource.fetchTrendingMoviesToday()
             if(movieResponse.isSuccessful){
                 movieResponse.body()?.results?.forEach {movie->
@@ -30,7 +30,7 @@ class MovieRepositoryImpl(private val appDataSource: AppDataSource, private val 
                 }
             }
         }
-        return moviesDao.getAllMovies(Constants.TRENDING_TODAY)
+        return moviesDao.getAllMoviesPerCategory(Constants.TRENDING_TODAY)
 
     }
 
@@ -43,7 +43,7 @@ class MovieRepositoryImpl(private val appDataSource: AppDataSource, private val 
                 }
             }
 
-        return moviesDao.getAllMovies(Constants.ACTION)
+        return moviesDao.getAllMoviesPerCategory(Constants.ACTION)
     }
 
     override suspend fun discoverComedyMovies(): LiveData<List<Movie>> {
@@ -55,7 +55,7 @@ class MovieRepositoryImpl(private val appDataSource: AppDataSource, private val 
             }
         }
 
-        return moviesDao.getAllMovies(Constants.COMEDY)
+        return moviesDao.getAllMoviesPerCategory(Constants.COMEDY)
     }
 
 

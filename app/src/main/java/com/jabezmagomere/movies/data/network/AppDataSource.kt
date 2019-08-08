@@ -8,4 +8,5 @@ interface AppDataSource {
     suspend fun fetchTrendingMoviesToday(): retrofit2.Response<Response>
     suspend fun fetchActionMovies(): retrofit2.Response<Response>
     suspend fun fetchComedyMovies(): retrofit2.Response<Response>
+
 }

@@ -1,7 +1,6 @@
 package com.jabezmagomere.movies
 
 import android.app.Application
-import com.facebook.stetho.Stetho
 import com.jabezmagomere.movies.data.db.MovieDatabase
 import com.jabezmagomere.movies.data.network.*
 import com.jabezmagomere.movies.data.network.Api.DiscoverMoviesApiService
@@ -54,7 +53,6 @@ class MovieApplication:Application(), KodeinAware{
 
     override fun onCreate() {
         super.onCreate()
-        Stetho.initializeWithDefaults(this)
 
     }
 }

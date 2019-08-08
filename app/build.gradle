@@ -7,6 +7,9 @@ apply plugin: "kotlin-kapt"
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'de.mannodermaus.android-junit5'
+
+
 
 
 android {
@@ -29,6 +32,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8  // <= add this
         targetCompatibility JavaVersion.VERSION_1_8  // <= add this
     }
+    testOptions {
+        unitTests.includeAndroidResources = true
+        unitTests.returnDefaultValues = true
+    }
+
+
 }
 
 dependencies {
@@ -47,8 +56,8 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.5"
 
     // Kotlin Android Coroutines- lightweight threads
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1"
 
     // Retrofit- fetching data from APIs
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -66,8 +75,7 @@ dependencies {
     implementation "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
     implementation "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
 
-    //Testing Libraries
-    testImplementation 'junit:junit:4.12'
+
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
 
@@ -87,12 +95,32 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
+    //Live Data Coroutine Builder.
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-alpha01"
 
 
-    //Stetho
-    implementation 'com.facebook.stetho:stetho-urlconnection:1.5.1'
-    implementation 'com.facebook.stetho:stetho:1.5.1'
+    // Optional -- Robolectric environment
+    testImplementation 'androidx.test:core:1.2.0'
+    // Optional -- Mockito framework
+    testImplementation 'org.mockito:mockito-core:2.19.0'
+
+    testImplementation "android.arch.core:core-testing:1.1.1"
+
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.0-RC'
+
+    // Set this dependency if you want to use Hamcrest matching
+    testImplementation 'org.hamcrest:hamcrest-library:1.3'
+
+    testImplementation "org.robolectric:robolectric:4.3"
+
+    //mockk
+    testImplementation 'io.mockk:mockk:1.9'
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.3.2"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.3.2"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:5.3.2"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.3.2"
+
 
 
 

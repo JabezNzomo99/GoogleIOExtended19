@@ -11,37 +11,30 @@ import com.jabezmagomere.movies.ui.view.Category
 import kotlinx.coroutines.*
 import java.lang.Exception
 
-class MainAcitvityViewModel(private val movieRepository: MovieRepository):ViewModel(){
+class MainActivityViewModel(private val movieRepository: MovieRepository):ViewModel(){
 
-    val trendingMoviesToday = liveData{
-        withContext(Dispatchers.IO) {
-            isLoading.postValue(true)
+    val trendingMoviesToday = liveData(Dispatchers.IO){
             emitSource(movieRepository.getTrendingMoviesToday())
-            isLoading.postValue(false)
-        }
     }
     val trendingMoviesThisWeek = liveData {
         withContext(Dispatchers.IO){
-            isLoading.postValue(true)
             emitSource(movieRepository.getTrendingMoviesThisWeek())
-            isLoading.postValue(false)
 
         }
     }
-    val actionMovies = liveData {
-        withContext(Dispatchers.IO){
-            isLoading.postValue(true)
-            emitSource(movieRepository.discoverActionMovies())
-            isLoading.postValue(false)
-        }
+    val actionMovies = liveData(Dispatchers.IO){
+        emitSource(movieRepository.discoverActionMovies())
     }
-    val comedyMovies = liveData {
-        withContext(Dispatchers.IO){
-            isLoading.postValue(true)
+
+    val comedyMovies = liveData(Dispatchers.IO){
             emitSource(movieRepository.discoverComedyMovies())
-            isLoading.postValue(false)
-        }
     }
+
     val allCategory = MutableLiveData<ArrayList<Category>>()
-    val isLoading = MutableLiveData<Boolean>()
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.cancel()
+    }
+
 }

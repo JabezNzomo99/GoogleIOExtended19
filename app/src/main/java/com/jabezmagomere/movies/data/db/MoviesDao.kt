@@ -5,8 +5,14 @@ import androidx.room.*
 
 @Dao
 interface MoviesDao {
+    @Query("SELECT * FROM Movies")
+    fun getAllMovies():LiveData<List<Movie>>
+
     @Query("SELECT * FROM Movies WHERE category=:category")
-    fun getAllMovies(category:String):LiveData<List<Movie>>
+    fun getAllMoviesPerCategory(category:String):LiveData<List<Movie>>
+
+    @Query("SELECT * FROM Movies WHERE id=:id")
+    fun getMovie(id:Int):LiveData<Movie>
 
     @Query("DELETE FROM Movies")
     suspend fun clearMovies()
@@ -14,7 +20,7 @@ interface MoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovie(movie: Movie)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovies(movie: List<Movie>)
 
 }
